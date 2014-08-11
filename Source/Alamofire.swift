@@ -117,7 +117,7 @@ public struct Alamofire {
             case .JSON(let options):
                 let data = NSJSONSerialization.dataWithJSONObject(parameters, options: options, error: &error)
 
-                if data {
+                if data != nil {
                     let charset = CFStringConvertEncodingToIANACharSetName(CFStringConvertNSStringEncodingToEncoding(NSUTF8StringEncoding))
                     mutableRequest.setValue("application/json; charset=\(charset)", forHTTPHeaderField: "Content-Type")
                     mutableRequest.HTTPBody = data
@@ -125,7 +125,7 @@ public struct Alamofire {
             case .PropertyList(let (format, options)):
                 let data = NSPropertyListSerialization.dataWithPropertyList(parameters, format: format, options: options, error: &error)
 
-                if data {
+                if data != nil {
                     let charset = CFStringConvertEncodingToIANACharSetName(CFStringConvertNSStringEncodingToEncoding(NSUTF8StringEncoding));
                     mutableRequest.setValue("application/x-plist; charset=\(charset)", forHTTPHeaderField: "Content-Type")
                     mutableRequest.HTTPBody = data
@@ -678,7 +678,7 @@ extension Alamofire.Request {
         // MARK: NSURLSessionTaskDelegate
 
         func URLSession(session: NSURLSession!, task: NSURLSessionTask!, didSendBodyData bytesSent: Int64, totalBytesSent: Int64, totalBytesExpectedToSend: Int64) {
-            if self.uploadProgress {
+            if self.uploadProgress != nil {
                 self.uploadProgress(bytesSent, totalBytesSent, totalBytesExpectedToSend)
             }
 
